@@ -1,0 +1,54 @@
+.whole-page {
+  margin: 50px 60px;
+}
+
+.craving {
+  display: block;
+  margin-bottom: 50px;
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: 500;
+  margin: 0 0 20px 0;
+}
+
+.craving-con {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.craving-pic {
+  width: 400px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.craving-pic img {
+  width: 400px;
+  height: auto;
+  cursor: pointer;
+}
+
+.craving-pic-p {
+  margin: 0px 0 20px 20px;
+}
+
+#des {
+  font-size: 1.4rem;
+  font-weight: 400;
+}
+
+#des:hover {
+  text-decoration-line: underline;
+  cursor: pointer;
+}
+
+.more {
+}
