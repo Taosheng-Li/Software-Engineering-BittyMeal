@@ -19,6 +19,7 @@ const Homepage = () => {
             ))}
           </div>
         </div>
+
         <div className="explore-section">
           <div className="explore-header">
             <h2 className="heading">EXPLORE MORE</h2>
