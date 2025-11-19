@@ -16,20 +16,10 @@ function CollectionPage({ title, subtitle, recipes, onBack, onSelectRecipe }) {
         {recipes.map((recipe) => (
           <article
             key={recipe.id}
-            className={`collection-card ${onSelectRecipe ? "collection-card--action" : ""}`}
+            className={`collection-card ${
+              onSelectRecipe ? "collection-card--action" : ""
+            }`}
             onClick={onSelectRecipe ? () => onSelectRecipe(recipe) : undefined}
-            role={onSelectRecipe ? "button" : undefined}
-            tabIndex={onSelectRecipe ? 0 : undefined}
-            onKeyDown={
-              onSelectRecipe
-                ? (event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                      event.preventDefault();
-                      onSelectRecipe(recipe);
-                    }
-                  }
-                : undefined
-            }
           >
             <div className="collection-card-img">
               <img src={recipe.image} alt={recipe.name} />

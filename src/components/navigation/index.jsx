@@ -8,13 +8,9 @@ function Navigation({ recipes, onSelectRecipe, onNavigateSection }) {
   const [authModal, setAuthModal] = useState({ visible: false, mode: null });
   const [query, setQuery] = useState("");
 
-  const [isCompact, setIsCompact] = useState(
-    typeof window !== "undefined" ? window.innerWidth <= 1024 : false
-  );
+  const [isCompact, setIsCompact] = useState(window.innerWidth <= 1024);
 
-  const [searchOpen, setSearchOpen] = useState(
-    typeof window !== "undefined" ? window.innerWidth > 1024 : false
-  );
+  const [searchOpen, setSearchOpen] = useState(window.innerWidth > 1024);
 
   const toggleRightBar = () => {
     setOpen((prev) => !prev);
