@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import "./style.css";
-import { Search, Person, DarkMode, Toc, ArrowBack } from "@mui/icons-material";
+import { Search, Person, Toc, ArrowBack } from "@mui/icons-material";
 
 function Navigation({ recipes, onSelectRecipe, onNavigateSection }) {
   const [open, setOpen] = useState(false);
@@ -148,7 +148,6 @@ function Navigation({ recipes, onSelectRecipe, onNavigateSection }) {
           />
         )}
 
-        <DarkMode style={{ margin: "0 10px" }} />
         <Person
           style={{ margin: "0 10px", cursor: "pointer" }}
           onClick={toggleAuthMenu}

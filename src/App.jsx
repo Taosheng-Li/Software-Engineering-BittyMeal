@@ -13,13 +13,15 @@ const mustSeeCollectionConfig = [
   {
     id: "mediterranean-glow",
     title: "Mediterranean Glow",
-    subtitle: "Citrus, herbs, and olive oil bring these mezze-ready plates to life.",
+    subtitle:
+      "Citrus, herbs, and olive oil bring these mezze-ready plates to life.",
     recipeIds: [6, 7, 9, 10],
   },
   {
     id: "global-street-party",
     title: "Global Street Party",
-    subtitle: "Bold handheld bites inspired by bustling markets and night stalls.",
+    subtitle:
+      "Bold handheld bites inspired by bustling markets and night stalls.",
     recipeIds: [5, 8, 11, 12],
   },
   {
@@ -49,7 +51,9 @@ function App() {
   }, []);
 
   const trendingRecipes = useMemo(() => {
-    const sorted = [...allRecipes].sort((a, b) => b.reviewCount - a.reviewCount);
+    const sorted = [...allRecipes].sort(
+      (a, b) => b.reviewCount - a.reviewCount
+    );
     return sorted.slice(0, 8);
   }, []);
 
@@ -98,7 +102,7 @@ function App() {
 
   const spotlightTrending = useMemo(
     () => trendingRecipes.slice(0, 4),
-    [trendingRecipes],
+    [trendingRecipes]
   );
 
   const handleOpenRecipe = (recipe) => {
