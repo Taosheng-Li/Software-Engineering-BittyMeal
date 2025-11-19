@@ -54,6 +54,7 @@
   overflow: hidden;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex: 0 0 400px;
 }
 
 .interactive-card {
@@ -267,6 +268,36 @@
   text-align: center;
 }
 
+.explore-more {
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+}
+
+.explore-more-button {
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 999px;
+  font-size: 1rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.explore-more-button:hover,
+.explore-more-button:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.explore-more-button:focus-visible {
+  outline: 3px solid rgba(17, 17, 17, 0.5);
+  outline-offset: 6px;
+}
+
 @media (max-width: 1400px) {
   .craving-scroll,
   .trending-scroll {
@@ -288,10 +319,6 @@
   .craving-con,
   .trending-con {
     flex-wrap: nowrap;
-  }
-
-  .craving-pic {
-    flex: 0 0 360px;
   }
 
   .trending-pic {

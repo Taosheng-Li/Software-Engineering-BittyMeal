@@ -1,31 +1,14 @@
-import "./styles.css";
-import type { KeyboardEvent } from "react";
 import { useEffect, useRef } from "react";
-import { cravingItem } from "../../../data/homepageData";
-import type { Recipe } from "../../types/recipe";
-import type { RecipeCollection } from "../../types/collection";
+import "./styles.css";
+import { cravingItem } from "../../../data/homepageData.js";
 
-type HomepageProps = {
-  onOpenCraving: () => void;
-  onOpenTrending: () => void;
-  onOpenMustSee: () => void;
-  onOpenCollection: (collectionId: string) => void;
-  onOpenEditorsChoice: () => void;
-  trendingRecipes: Recipe[];
-  mustSeeHighlight: RecipeCollection | null;
-  mustSeeCollections: RecipeCollection[];
-  editorsChoiceRecipes: Recipe[];
-  onSelectRecipe: (recipe: Recipe) => void;
-  scrollTarget: "must-see" | null;
-  onClearScrollTarget?: () => void;
-};
-
-const Homepage = ({
+function Homepage({
   onOpenCraving,
   onOpenTrending,
   onOpenMustSee,
   onOpenCollection,
   onOpenEditorsChoice,
+  onOpenExplore,
   trendingRecipes,
   mustSeeHighlight,
   mustSeeCollections,
@@ -33,22 +16,12 @@ const Homepage = ({
   onSelectRecipe,
   scrollTarget,
   onClearScrollTarget,
-}: HomepageProps) => {
-  const handleKeyPress = (
-    event: KeyboardEvent<HTMLElement>,
-    cb: () => void
-  ) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      cb();
-    }
-  };
-
-  const mustSeeSectionRef = useRef<HTMLDivElement | null>(null);
+}) {
+  const mustSeeSectionRef = useRef(null);
 
   useEffect(() => {
     if (scrollTarget === "must-see" && mustSeeSectionRef.current) {
-      mustSeeSectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      mustSeeSectionRef.current.scrollIntoView({ behavior: "smooth" });
       onClearScrollTarget?.();
     }
   }, [scrollTarget, onClearScrollTarget]);
@@ -68,10 +41,7 @@ const Homepage = ({
             <div
               key={item.id}
               className="craving-pic interactive-card"
-              role="button"
-              tabIndex={0}
               onClick={onOpenCraving}
-              onKeyDown={(event) => handleKeyPress(event, onOpenCraving)}
             >
               <img src={item.img} alt={item.name} />
               <div className="craving-pic-p">
@@ -96,14 +66,9 @@ const Homepage = ({
             <div
               key={recipe.id}
               className="trending-pic interactive-card"
-              role="button"
-              tabIndex={0}
               onClick={() => onSelectRecipe(recipe)}
-              onKeyDown={(event) =>
-                handleKeyPress(event, () => onSelectRecipe(recipe))
-              }
             >
-              <img src={recipe.image} alt={recipe.name} loading="lazy" />
+              <img src={recipe.image} alt={recipe.name} />
               <div className="trending-pic-p">
                 <p className="trending-name">{recipe.name}</p>
               </div>
@@ -123,30 +88,24 @@ const Homepage = ({
         {mustSeeHighlight && (
           <div
             className="must-see-feature interactive-card"
-            role="button"
-            tabIndex={0}
-          onClick={() => onOpenCollection(mustSeeHighlight.id)}
-          onKeyDown={(event) =>
-            handleKeyPress(event, () => onOpenCollection(mustSeeHighlight.id))
-          }
-        >
-          <div className="must-see-feature-img">
-            <img
-              src={mustSeeHighlight.image}
-              alt={mustSeeHighlight.title}
-              loading="lazy"
-            />
+            onClick={() => onOpenCollection(mustSeeHighlight.id)}
+          >
+            <div className="must-see-feature-img">
+              <img
+                src={mustSeeHighlight.image}
+                alt={mustSeeHighlight.title}
+              />
+            </div>
+            <div className="must-see-feature-copy">
+              <p className="must-see-label">Collection</p>
+              <h3 className="must-see-feature-title">
+                {mustSeeHighlight.title}
+              </h3>
+              <p className="must-see-feature-description">
+                {mustSeeHighlight.subtitle}
+              </p>
+            </div>
           </div>
-          <div className="must-see-feature-copy">
-            <p className="must-see-label">Collection</p>
-            <h3 className="must-see-feature-title">
-              {mustSeeHighlight.title}
-            </h3>
-            <p className="must-see-feature-description">
-              {mustSeeHighlight.subtitle}
-            </p>
-          </div>
-        </div>
         )}
 
         <div className="must-see-grid">
@@ -154,14 +113,9 @@ const Homepage = ({
             <div
               key={collection.id}
               className="must-see-card interactive-card"
-              role="button"
-              tabIndex={0}
               onClick={() => onOpenCollection(collection.id)}
-              onKeyDown={(event) =>
-                handleKeyPress(event, () => onOpenCollection(collection.id))
-              }
             >
-              <img src={collection.image} alt={collection.title} loading="lazy" />
+              <img src={collection.image} alt={collection.title} />
               <div className="must-see-overlay">
                 <p className="must-see-label">Collection</p>
                 <h3 className="must-see-title">{collection.title}</h3>
@@ -183,20 +137,21 @@ const Homepage = ({
           <div
             key={recipe.id}
             className="editors-card interactive-card"
-            role="button"
-            tabIndex={0}
             onClick={() => onSelectRecipe(recipe)}
-            onKeyDown={(event) =>
-              handleKeyPress(event, () => onSelectRecipe(recipe))
-            }
           >
-            <img src={recipe.image} alt={recipe.name} loading="lazy" />
+            <img src={recipe.image} alt={recipe.name} />
             <p className="editors-card-title">{recipe.name}</p>
           </div>
         ))}
       </div>
+
+      <div className="explore-more">
+        <button className="explore-more-button" onClick={onOpenExplore}>
+          Explore More
+        </button>
+      </div>
     </section>
   );
-};
+}
 
 export default Homepage;

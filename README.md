@@ -1,73 +1,32 @@
-# React + TypeScript + Vite
+# BittyMeal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+BittyMeal is a React + Vite single-page experience that highlights curated recipe collections, navigation search, and modal flows for signing in or up. The project is intentionally JavaScript-only so it can run out of the box without any TypeScript setup.
 
-Currently, two official plugins are available:
+## Getting Started
+1. Install dependencies: `npm install`
+2. Start the dev server: `npm run dev`
+3. Build for production: `npm run build`
+4. Preview the production build locally: `npm run preview`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Project Structure
+```
+.
+├── data/                # Static JSON + helper data used by the UI
+├── public/              # Static assets served as-is
+├── src/
+│   ├── components/
+│   │   ├── homepage/    # Homepage sections and styling
+│   │   └── navigation/  # Top navigation bar, search, auth modal
+│   ├── App.jsx          # Top-level view + routing logic
+│   ├── main.jsx         # React entry point
+│   └── index.css        # Global styles
+├── docs/                # Internal teammate guide
+└── README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Tooling Notes
+- ESLint is configured for modern JavaScript and JSX only; no TypeScript plugins are included.
+- Styling is handled with standard CSS modules imported into each component.
+- Material UI icons (`@mui/icons-material`) provide the navigation glyphs.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+If you need to extend the project, keep everything in JavaScript/JSX so new contributors can jump in without extra build configuration.

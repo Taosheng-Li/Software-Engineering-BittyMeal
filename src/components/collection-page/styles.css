@@ -67,6 +67,22 @@
   background: #fff;
 }
 
+.collection-card--action {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.collection-card--action:hover,
+.collection-card--action:focus-visible {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.18);
+}
+
+.collection-card--action:focus-visible {
+  outline: 3px solid rgba(0, 0, 0, 0.35);
+  outline-offset: 6px;
+}
+
 .collection-card-img {
   position: relative;
   padding-top: 65%;

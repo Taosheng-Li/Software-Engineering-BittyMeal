@@ -15,20 +15,20 @@ Tip: Keep the dev server running in a separate terminal so you get instant feedb
 
 ## 2. React Crash Course (10-minute refresher)
 - **Components**: A component is a function that returns JSX (HTML-like markup). Example:
-  ```tsx
+  ```jsx
   const Card = () => <div className="card">Hello!</div>;
   export default Card;
   ```
 - **JSX rules**: Return one top-level element (wrap siblings in `<div>` or `<>...</>`), use `className` instead of `class`, close all tags.
 - **Props**: Data you pass into a component just like function parameters. Example: `<Card title="Trending" />`.
 - **State**: Local component memory managed with React hooks. Import `useState` and create a state pair:
-  ```tsx
+  ```jsx
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen((prev) => !prev);
   ```
 - **Conditional rendering**: Show markup only when a condition is true. Example: `{isOpen && <div>Menu</div>}`.
 - **Mapping lists**: Render repeating UI by mapping over an array and returning JSX for each item.
-  ```tsx
+  ```jsx
   {items.map((item) => (
     <div key={item.id}>{item.title}</div>
   ))}
@@ -40,9 +40,9 @@ Keep this section open while you work—you'll use every concept above.
 ---
 
 ## 3. Task Overview
-- **Teammate A (Homepage – Trending & Must-See)**: build two content blocks inside `src/components/homepage/index.tsx` under the placeholder `<div className="explore-section">`.
+- **Teammate A (Homepage – Trending & Must-See)**: build two content blocks inside `src/components/homepage/index.jsx` under the placeholder `<div className="explore-section">`.
 - **Teammate B (Homepage – Editor’s Choice & More)**: continue the same file, adding two more blocks after Teammate A's sections.
-- **Teammate C (Navigation – Auth Dropdown + Modal)**: enhance `src/components/navigation/index.tsx` so the person icon opens a small menu (Sign in / Sign up) and clicking either option shows an authentication modal like the provided reference.
+- **Teammate C (Navigation – Auth Dropdown + Modal)**: enhance `src/components/navigation/index.jsx` so the person icon opens a small menu (Sign in / Sign up) and clicking either option shows an authentication modal like the provided reference.
 
 Coordinate hand-off between A and B so the homepage sections share a consistent layout and styling.
 
@@ -60,19 +60,19 @@ Coordinate hand-off between A and B so the homepage sections share a consistent 
 The homepage already renders the "WHAT WE ARE CRAVING" section. You will add four more sections below it.
 
 ### 5.1 Prepare Your Data
-1. Open `data/homepageData.tsx`.
+1. Open `data/homepageData.js`.
 2. Add new arrays for each section, e.g. `trendingItems`, `mustSeeItems`, `editorsChoiceItems`, `moreItems` (keep the same object structure `{ id, name, description, img }`).
 3. Use placeholder images from `public/` or copy existing ones if needed. You can update the images later.
 4. Export these arrays so they can be imported in the homepage component.
 
 ### 5.2 Layout Template (Both Teammates)
-Inside `src/components/homepage/index.tsx`, replicate the pattern used for the craving section:
+Inside `src/components/homepage/index.jsx`, replicate the pattern used for the craving section:
 - Wrap each block in a container div such as `<section className="homepage-section">` (create this class in CSS).
 - Include a header (`<div className="explore-header">` + `<h2 className="heading">` with the section title).
 - Render a grid of cards by mapping over the data array for that section.
 
 Recommended card markup:
-```tsx
+```jsx
 <div className="card-grid">
   {sectionItems.map((item) => (
     <article className="recipe-card" key={item.id}>
@@ -127,7 +127,7 @@ Declare them with `useState` near the top of the component.
 1. Wrap the `<Person />` icon in a `<div className="person-wrapper">` so you can position the dropdown.
 2. Add an `onClick` handler that toggles `isAuthMenuOpen`.
 3. Render a conditional block right after the icon:
-   ```tsx
+   ```jsx
    {isAuthMenuOpen && (
      <div className="auth-menu">
        <button onClick={() => openModal("sign-in")}>Sign in</button>
@@ -141,7 +141,7 @@ Declare them with `useState` near the top of the component.
 ### 6.3 Modal Steps
 1. Condition: `{activeAuthModal && ( ...modal markup... )}` placed near the end of the component so it renders above everything else.
 2. Markup structure:
-   ```tsx
+   ```jsx
    <div className="auth-backdrop" onClick={closeModal}>
      <div className="auth-modal" onClick={(event) => event.stopPropagation()}>
        <button className="close" onClick={closeModal}>×</button>
@@ -193,7 +193,7 @@ Bonus: After finishing, consider extracting the modal into its own component fil
 - Homepage shows five sections in this order: What We Are Craving, Trending, Must-See, Editor’s Choice, More.
 - Section layouts match the provided mockup: grid of cards, equal spacing, hover states.
 - Navigation bar dropdown + modal behave exactly as described.
-- No TypeScript errors or console warnings in the browser.
+- No runtime errors or console warnings in the browser.
 - `npm run dev` runs without crashing.
 
 Once everything checks out, capture screenshots for documentation and hand off for review. Great job!

@@ -1,19 +1,6 @@
 import "./styles.css";
-import type { Recipe } from "../../types/recipe";
 
-type CollectionPageProps = {
-  title: string;
-  subtitle: string;
-  recipes: Recipe[];
-  onBack: () => void;
-};
-
-const CollectionPage = ({
-  title,
-  subtitle,
-  recipes,
-  onBack,
-}: CollectionPageProps) => {
+function CollectionPage({ title, subtitle, recipes, onBack, onSelectRecipe }) {
   return (
     <main className="collection-page">
       <button className="collection-back" onClick={onBack}>
@@ -25,11 +12,27 @@ const CollectionPage = ({
         <p className="collection-subtitle">{subtitle}</p>
       </header>
 
-      <section className="collection-grid" aria-live="polite">
+      <section className="collection-grid">
         {recipes.map((recipe) => (
-          <article key={recipe.id} className="collection-card">
+          <article
+            key={recipe.id}
+            className={`collection-card ${onSelectRecipe ? "collection-card--action" : ""}`}
+            onClick={onSelectRecipe ? () => onSelectRecipe(recipe) : undefined}
+            role={onSelectRecipe ? "button" : undefined}
+            tabIndex={onSelectRecipe ? 0 : undefined}
+            onKeyDown={
+              onSelectRecipe
+                ? (event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      onSelectRecipe(recipe);
+                    }
+                  }
+                : undefined
+            }
+          >
             <div className="collection-card-img">
-              <img src={recipe.image} alt={recipe.name} loading="lazy" />
+              <img src={recipe.image} alt={recipe.name} />
             </div>
             <div className="collection-card-body">
               <h3>{recipe.name}</h3>
@@ -52,6 +55,6 @@ const CollectionPage = ({
       </section>
     </main>
   );
-};
+}
 
 export default CollectionPage;

@@ -1,11 +1,4 @@
-type Item = {
-  id: number;
-  name: string;
-  description?: string;
-  img: string;
-};
-
-export const cravingItem: Item[] = [
+export const cravingItem = [
   {
     id: 1,
     name: "chicken",

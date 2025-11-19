@@ -1,12 +1,6 @@
 import "./styles.css";
-import type { Recipe } from "../../types/recipe";
 
-type RecipeDetailProps = {
-  recipe: Recipe;
-  onBack: () => void;
-};
-
-const RecipeDetail = ({ recipe, onBack }: RecipeDetailProps) => {
+function RecipeDetail({ recipe, onBack }) {
   const totalTime = recipe.prepTimeMinutes + recipe.cookTimeMinutes;
 
   return (
@@ -65,6 +59,6 @@ const RecipeDetail = ({ recipe, onBack }: RecipeDetailProps) => {
       )}
     </main>
   );
-};
+}
 
 export default RecipeDetail;

@@ -6,34 +6,10 @@ import Homepage from "./components/homepage";
 import CollectionPage from "./components/collection-page";
 import RecipeDetail from "./components/recipe-detail";
 import recipesJson from "../data/recipes.json";
-import type { Recipe } from "./types/recipe";
-import type { RecipeCollection } from "./types/collection";
 
-type View =
-  | "home"
-  | "craving"
-  | "trending"
-  | "must-see"
-  | "editors"
-  | "recipe"
-  | "collection";
+const { recipes: allRecipes } = recipesJson;
 
-type HomeScrollTarget = "must-see" | null;
-
-type RecipesResponse = {
-  recipes: Recipe[];
-};
-
-const { recipes: allRecipes } = recipesJson as RecipesResponse;
-
-type CollectionConfig = {
-  id: string;
-  title: string;
-  subtitle: string;
-  recipeIds: number[];
-};
-
-const mustSeeCollectionConfig: CollectionConfig[] = [
+const mustSeeCollectionConfig = [
   {
     id: "mediterranean-glow",
     title: "Mediterranean Glow",
@@ -61,8 +37,11 @@ const mustSeeCollectionConfig: CollectionConfig[] = [
 ];
 
 function App() {
-  const [view, setView] = useState<View>("home");
-  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+  const [view, setView] = useState("home");
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [previousView, setPreviousView] = useState(null);
+  const [collectionView, setCollectionView] = useState(null);
+  const [homeScrollTarget, setHomeScrollTarget] = useState(null);
 
   const cravingRecipes = useMemo(() => {
     const sorted = [...allRecipes].sort((a, b) => b.rating - a.rating);
@@ -74,12 +53,12 @@ function App() {
     return sorted.slice(0, 8);
   }, []);
 
-  const mustSeeCollections = useMemo<RecipeCollection[]>(() => {
+  const mustSeeCollections = useMemo(() => {
     return mustSeeCollectionConfig
       .map((collection) => {
         const recipes = collection.recipeIds
           .map((id) => allRecipes.find((recipe) => recipe.id === id))
-          .filter((recipe): recipe is Recipe => Boolean(recipe));
+          .filter(Boolean);
         if (recipes.length === 0) {
           return null;
         }
@@ -89,18 +68,16 @@ function App() {
           subtitle: collection.subtitle,
           recipes,
           image: recipes[0].image,
-        } satisfies RecipeCollection;
+        };
       })
-      .filter(
-        (collection): collection is RecipeCollection => collection !== null,
-      );
-  }, [allRecipes]);
+      .filter(Boolean);
+  }, []);
 
   const mustSeeHighlight = mustSeeCollections[0] ?? null;
 
   const mustSeeRecipes = useMemo(() => {
-    const seen = new Set<number>();
-    const aggregated: Recipe[] = [];
+    const seen = new Set();
+    const aggregated = [];
     mustSeeCollections.forEach((collection) => {
       collection.recipes.forEach((recipe) => {
         if (!seen.has(recipe.id)) {
@@ -116,7 +93,7 @@ function App() {
     const editorIds = [1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
     return editorIds
       .map((id) => allRecipes.find((recipe) => recipe.id === id))
-      .filter((recipe): recipe is Recipe => Boolean(recipe));
+      .filter(Boolean);
   }, []);
 
   const spotlightTrending = useMemo(
@@ -124,27 +101,46 @@ function App() {
     [trendingRecipes],
   );
 
-  const handleBackHome = () => setView("home");
-  const handleOpenRecipe = (recipe: Recipe) => {
+  const handleOpenRecipe = (recipe) => {
     setSelectedRecipe(recipe);
+    setPreviousView(view);
     setView("recipe");
   };
+
   const handleBackFromRecipe = () => {
     setSelectedRecipe(null);
-    setView("home");
+    setView(previousView ?? "home");
+    setPreviousView(null);
   };
 
-  const [collectionView, setCollectionView] = useState<RecipeCollection | null>(
-    null,
-  );
-  const [homeScrollTarget, setHomeScrollTarget] =
-    useState<HomeScrollTarget>(null);
-
-  const handleOpenCollection = (collectionId: string) => {
+  const handleOpenCollection = (collectionId) => {
     const collection = mustSeeCollections.find(({ id }) => id === collectionId);
     if (!collection) return;
     setCollectionView(collection);
     setView("collection");
+  };
+
+  const handleOpenExplore = () => {
+    setView("explore");
+  };
+
+  const handleNavigateSection = (section) => {
+    switch (section) {
+      case "craving":
+        setView("craving");
+        break;
+      case "trending":
+        setView("trending");
+        break;
+      case "must-see":
+        setView("must-see");
+        break;
+      case "editors":
+        setView("editors");
+        break;
+      default:
+        setView("home");
+    }
   };
 
   const handleBackFromCollection = () => {
@@ -161,7 +157,11 @@ function App() {
 
   return (
     <>
-      <Navigation />
+      <Navigation
+        recipes={allRecipes}
+        onSelectRecipe={handleOpenRecipe}
+        onNavigateSection={handleNavigateSection}
+      />
       {view === "home" && (
         <Homepage
           onOpenCraving={() => setView("craving")}
@@ -176,6 +176,7 @@ function App() {
           onSelectRecipe={handleOpenRecipe}
           scrollTarget={homeScrollTarget}
           onClearScrollTarget={() => setHomeScrollTarget(null)}
+          onOpenExplore={handleOpenExplore}
         />
       )}
       {view === "craving" && (
@@ -183,7 +184,8 @@ function App() {
           title="What We Are Craving"
           subtitle="The dishes everyone on BittyMeal is reaching for right now—comforting, colorful, and packed with flavor."
           recipes={cravingRecipes}
-          onBack={handleBackHome}
+          onBack={() => setView("home")}
+          onSelectRecipe={handleOpenRecipe}
         />
       )}
       {view === "trending" && (
@@ -191,7 +193,8 @@ function App() {
           title="Trending Now"
           subtitle="These recipes are having a moment. High reviews and plenty of buzz from our community cooks."
           recipes={trendingRecipes}
-          onBack={handleBackHome}
+          onBack={() => setView("home")}
+          onSelectRecipe={handleOpenRecipe}
         />
       )}
       {view === "must-see" && (
@@ -199,7 +202,8 @@ function App() {
           title="Must-See Collections"
           subtitle="Three stand-out dishes we can't stop talking about—from Mediterranean brightness to indulgent Italian comfort."
           recipes={mustSeeRecipes}
-          onBack={handleBackHome}
+          onBack={() => setView("home")}
+          onSelectRecipe={handleOpenRecipe}
         />
       )}
       {view === "editors" && (
@@ -207,7 +211,17 @@ function App() {
           title="Editor's Choice"
           subtitle="Fresh picks from the BittyMeal team—seasonal favorites and can't-miss classics."
           recipes={editorsChoiceRecipes}
-          onBack={handleBackHome}
+          onBack={() => setView("home")}
+          onSelectRecipe={handleOpenRecipe}
+        />
+      )}
+      {view === "explore" && (
+        <CollectionPage
+          title="Explore More"
+          subtitle="Browse every BittyMeal recipe in one place—perfect when you want something unexpected."
+          recipes={allRecipes}
+          onBack={() => setView("home")}
+          onSelectRecipe={handleOpenRecipe}
         />
       )}
       {view === "collection" && collectionView && (
@@ -216,6 +230,7 @@ function App() {
           subtitle={collectionView.subtitle}
           recipes={collectionView.recipes}
           onBack={handleBackFromCollection}
+          onSelectRecipe={handleOpenRecipe}
         />
       )}
       {view === "recipe" && selectedRecipe && (
