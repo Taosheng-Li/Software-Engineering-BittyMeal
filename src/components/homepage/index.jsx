@@ -17,67 +17,84 @@ function Homepage({
   scrollTarget,
   onClearScrollTarget,
 }) {
+  const cravingSectionRef = useRef(null);
+  const trendingSectionRef = useRef(null);
   const mustSeeSectionRef = useRef(null);
+  const editorsSectionRef = useRef(null);
 
   useEffect(() => {
-    if (scrollTarget === "must-see" && mustSeeSectionRef.current) {
-      mustSeeSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    if (!scrollTarget) return;
+
+    const sectionMap = {
+      craving: cravingSectionRef,
+      trending: trendingSectionRef,
+      "must-see": mustSeeSectionRef,
+      editors: editorsSectionRef,
+    };
+    const targetRef = sectionMap[scrollTarget];
+
+    if (targetRef?.current) {
+      targetRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
       onClearScrollTarget?.();
     }
   }, [scrollTarget, onClearScrollTarget]);
 
   return (
     <section className="whole-page">
-      <div className="section-heading">
-        <p className="heading">WHAT WE ARE CRAVING</p>
-        <button className="heading-link" onClick={onOpenCraving}>
-          SEE ALL
-        </button>
-      </div>
+      <div ref={cravingSectionRef} className="section-anchor">
+        <div className="section-heading">
+          <p className="heading">WHAT WE ARE CRAVING</p>
+          <button className="heading-link" onClick={onOpenCraving}>
+            SEE ALL
+          </button>
+        </div>
 
-      <div className="craving-scroll">
-        <div className="craving-con">
-          {cravingItem.map((item) => (
-            <div
-              key={item.id}
-              className="craving-pic interactive-card"
-              onClick={onOpenCraving}
-            >
-              <img src={item.img} alt={item.name} />
-              <div className="craving-pic-p">
-                <p>COLLECTION</p>
-                <p id="des">{item.description}</p>
+        <div className="craving-scroll">
+          <div className="craving-con">
+            {cravingItem.map((item) => (
+              <div
+                key={item.id}
+                className="craving-pic interactive-card"
+                onClick={onOpenCraving}
+              >
+                <img src={item.img} alt={item.name} />
+                <div className="craving-pic-p">
+                  <p>COLLECTION</p>
+                  <p id="des">{item.description}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="section-heading section-heading--trending">
-        <p className="heading">Trending</p>
-        <button className="heading-link" onClick={onOpenTrending}>
-          SEE ALL
-        </button>
-      </div>
+      <div ref={trendingSectionRef} className="section-anchor">
+        <div className="section-heading section-heading--trending">
+          <p className="heading">Trending</p>
+          <button className="heading-link" onClick={onOpenTrending}>
+            SEE ALL
+          </button>
+        </div>
 
-      <div className="trending-scroll">
-        <div className="trending-con">
-          {trendingRecipes.map((recipe) => (
-            <div
-              key={recipe.id}
-              className="trending-pic interactive-card"
-              onClick={() => onSelectRecipe(recipe)}
-            >
-              <img src={recipe.image} alt={recipe.name} />
-              <div className="trending-pic-p">
-                <p className="trending-name">{recipe.name}</p>
+        <div className="trending-scroll">
+          <div className="trending-con">
+            {trendingRecipes.map((recipe) => (
+              <div
+                key={recipe.id}
+                className="trending-pic interactive-card"
+                onClick={() => onSelectRecipe(recipe)}
+              >
+                <img src={recipe.image} alt={recipe.name} />
+                <div className="trending-pic-p">
+                  <p className="trending-name">{recipe.name}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
-      <div ref={mustSeeSectionRef}>
+      <div ref={mustSeeSectionRef} className="section-anchor">
         <div className="section-heading section-heading--must-see">
           <p className="heading">Must-See</p>
           <button className="heading-link" onClick={onOpenMustSee}>
@@ -125,24 +142,26 @@ function Homepage({
         </div>
       </div>
 
-      <div className="section-heading section-heading--editors">
-        <p className="heading">Editor's Choice</p>
-        <button className="heading-link" onClick={onOpenEditorsChoice}>
-          SEE ALL
-        </button>
-      </div>
+      <div ref={editorsSectionRef} className="section-anchor">
+        <div className="section-heading section-heading--editors">
+          <p className="heading">Editor's Choice</p>
+          <button className="heading-link" onClick={onOpenEditorsChoice}>
+            SEE ALL
+          </button>
+        </div>
 
-      <div className="editors-grid">
-        {editorsChoiceRecipes.map((recipe) => (
-          <div
-            key={recipe.id}
-            className="editors-card interactive-card"
-            onClick={() => onSelectRecipe(recipe)}
-          >
-            <img src={recipe.image} alt={recipe.name} />
-            <p className="editors-card-title">{recipe.name}</p>
-          </div>
-        ))}
+        <div className="editors-grid">
+          {editorsChoiceRecipes.map((recipe) => (
+            <div
+              key={recipe.id}
+              className="editors-card interactive-card"
+              onClick={() => onSelectRecipe(recipe)}
+            >
+              <img src={recipe.image} alt={recipe.name} />
+              <p className="editors-card-title">{recipe.name}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="explore-more">

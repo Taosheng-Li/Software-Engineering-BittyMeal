@@ -129,22 +129,8 @@ function App() {
   };
 
   const handleNavigateSection = (section) => {
-    switch (section) {
-      case "craving":
-        setView("craving");
-        break;
-      case "trending":
-        setView("trending");
-        break;
-      case "must-see":
-        setView("must-see");
-        break;
-      case "editors":
-        setView("editors");
-        break;
-      default:
-        setView("home");
-    }
+    setHomeScrollTarget(section);
+    setView("home");
   };
 
   const handleBackFromCollection = () => {

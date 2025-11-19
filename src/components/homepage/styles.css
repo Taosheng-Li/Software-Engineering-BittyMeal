@@ -2,6 +2,10 @@
   margin: 50px 60px;
 }
 
+.section-anchor {
+  scroll-margin-top: 120px;
+}
+
 .section-heading {
   display: flex;
   align-items: center;
