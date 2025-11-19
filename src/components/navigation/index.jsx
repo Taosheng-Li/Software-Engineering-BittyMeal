@@ -169,6 +169,7 @@ function Navigation({ recipes, onSelectRecipe, onNavigateSection }) {
           </button>
         </div>
       )}
+
       <div className={`rightBar ${open ? "open" : ""}`}>
         <button
           type="button"
@@ -207,10 +208,40 @@ function Navigation({ recipes, onSelectRecipe, onNavigateSection }) {
       {authModal.visible && (
         <div className="modal" onClick={closeAuthModal}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={closeAuthModal}>
+            <button
+              className="modal-close"
+              onClick={closeAuthModal}
+              type="button"
+            >
               ×
             </button>
+
             <h2>Hello!</h2>
+            <p className="modal-sub">
+              Use your email or another service to continue with BittyMeal.
+            </p>
+
+            <div className="modal-actions">
+              <button className="oauth-btn" type="button">
+                <span className="icon">G</span> Continue with Google
+              </button>
+              <button className="oauth-btn" type="button">
+                <span className="icon"></span> Continue with Apple
+              </button>
+
+              <div className="divider">
+                <span>or</span>
+              </div>
+
+              <button className="primary-btn" type="button">
+                Continue with email
+              </button>
+            </div>
+
+            <p className="modal-legal">
+              By continuing, you agree to our <a href="#">Terms of Service</a>.
+              Read our <a href="#">Privacy Policy</a>.
+            </p>
           </div>
         </div>
       )}
