@@ -108,10 +108,7 @@ function Homepage({
             onClick={() => onOpenCollection(mustSeeHighlight.id)}
           >
             <div className="must-see-feature-img">
-              <img
-                src={mustSeeHighlight.image}
-                alt={mustSeeHighlight.title}
-              />
+              <img src={mustSeeHighlight.image} alt={mustSeeHighlight.title} />
             </div>
             <div className="must-see-feature-copy">
               <p className="must-see-label">Collection</p>

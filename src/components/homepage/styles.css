@@ -234,7 +234,7 @@
 
 .must-see-title {
   margin: 8px 0 0 0;
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -345,5 +345,19 @@
 @media (max-width: 540px) {
   .editors-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .must-see-feature-title {
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+
+    letter-spacing: normal !important;
+
+    font-size: 1.8rem !important;
+    line-height: 1.2;
+
+    white-space: normal !important;
   }
 }
